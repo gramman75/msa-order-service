@@ -1,0 +1,9 @@
+spring:
+  profiles:
+    active: @activatedProperties@
+
+  application:
+    name: order-service
+
+greeting:
+  message: Welcome to the E-Commerce
