@@ -20,6 +20,11 @@ public class OrderController {
     private final OrderService orderService;
     private final ModelMapper modelMapper;
 
+    @GetMapping("/health-check")
+    public String check(){
+        return "It's working";
+    }
+
     @PostMapping("/{userId}/order")
     public ResponseOrder saveOrder(@PathVariable("userId") String userId, @RequestBody RequestOrder requestOrder){
         OrderDto orderDto = modelMapper.map(requestOrder, OrderDto.class);

@@ -8,7 +8,7 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
 public class OrderEntity {
 
     @Id
@@ -33,6 +33,7 @@ public class OrderEntity {
     @Column(nullable = false)
     private String orderId;
 
-    @ColumnDefault(value = "CURRENT_TIMESTAMP")
+//    @Column(nullable = false, insertable = false, updatable = false)
+//    @ColumnDefault(value = "CURRENT_TIMESTAMP")
     private Date createdAt;
 }
