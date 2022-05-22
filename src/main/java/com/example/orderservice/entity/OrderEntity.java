@@ -33,7 +33,7 @@ public class OrderEntity {
     @Column(nullable = false)
     private String orderId;
 
-//    @Column(nullable = false, insertable = false, updatable = false)
-//    @ColumnDefault(value = "CURRENT_TIMESTAMP")
+    @Column(nullable = false, insertable = false, updatable = false)
+    @ColumnDefault(value = "CURRENT_TIMESTAMP")
     private Date createdAt;
 }
