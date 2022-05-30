@@ -36,7 +36,7 @@ public class OrderController {
         return modelMapper.map(savedOrder, ResponseOrder.class);
     }
 
-    @GetMapping("{userId}/order")
+    @GetMapping("{userId}/orders")
     public List<ResponseOrder> findOrder(@PathVariable("userId") String userId) {
         List<OrderDto> orders = orderService.getOrders(userId);
         List<ResponseOrder> result = new ArrayList<>();
