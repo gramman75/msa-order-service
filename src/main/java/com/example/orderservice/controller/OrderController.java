@@ -1,13 +1,16 @@
 package com.example.orderservice.controller;
 
 import com.example.orderservice.dto.OrderDto;
+import com.example.orderservice.producer.KafkaOrderProducer;
 import com.example.orderservice.service.OrderService;
 import com.example.orderservice.vo.RequestOrder;
 import com.example.orderservice.vo.ResponseOrder;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -19,6 +22,7 @@ public class OrderController {
 
     private final OrderService orderService;
     private final ModelMapper modelMapper;
+    private final KafkaOrderProducer kafkaOrderProducer;
 
     @GetMapping("/health-check")
     public String check(){
@@ -29,10 +33,14 @@ public class OrderController {
     public ResponseOrder saveOrder(@PathVariable("userId") String userId, @RequestBody RequestOrder requestOrder){
         OrderDto orderDto = modelMapper.map(requestOrder, OrderDto.class);
         orderDto.setUserId(userId);
+        orderDto.setCreatedAt(LocalDateTime.now());
         orderDto.setTotalPrice(orderDto.calculateTotalPrice());
         orderDto.setOrderId(UUID.randomUUID().toString());
 
         OrderDto savedOrder = orderService.saveOrder(orderDto);
+
+        kafkaOrderProducer.send("order-topic", orderDto);
+
         return modelMapper.map(savedOrder, ResponseOrder.class);
     }
 

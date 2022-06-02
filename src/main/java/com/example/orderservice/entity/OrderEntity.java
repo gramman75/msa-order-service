@@ -4,6 +4,7 @@ import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -33,7 +34,7 @@ public class OrderEntity {
     @Column(nullable = false)
     private String orderId;
 
-//    @Column(nullable = false, insertable = false, updatable = false)
-//    @ColumnDefault(value = "CURRENT_TIMESTAMP")
-    private Date createdAt;
+    @Column(nullable = false, insertable = false, updatable = false)
+    @ColumnDefault(value = "CURRENT_TIMESTAMP")
+    private LocalDateTime createdAt;
 }

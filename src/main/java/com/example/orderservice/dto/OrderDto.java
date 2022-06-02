@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -26,7 +27,7 @@ public class OrderDto {
 
     private String orderId;
 
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
     public Integer calculateTotalPrice(){
         return this.qty * this.unitPrice;

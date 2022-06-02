@@ -3,17 +3,26 @@ server:
 
 spring:
   datasource:
-    url: jdbc:h2:tcp://localhost/C:\data\order-service # jdbc:h2:file:C:\data\test
-    username: sa
-    password:
+#    url: jdbc:h2:tcp://localhost/C:\data\order-service # jdbc:h2:file:C:\data\test
+#    url: jdbc:h2:mem:orderdb
+    url: jdbc:mariadb://localhost:3306/mydb
+    dirver-class-name: org.mariadb.jdbc.Driver
+    username: root
+    password: mariadb
 
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+      path: /h2-console
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
       naming_strategy: org.hibernate.cfg.EJB3NamingStrategy
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.H2Dialect
+        dialect: org.hibernate.dialect.MariaDBDialect
         jdbc:
           lob:
             non_contextual_creation: true
