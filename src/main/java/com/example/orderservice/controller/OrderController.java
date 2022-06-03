@@ -1,17 +1,24 @@
 package com.example.orderservice.controller;
 
+import com.example.orderservice.dto.KafkaOrderDto;
 import com.example.orderservice.dto.OrderDto;
+import com.example.orderservice.producer.KafkaOrderJdbcProducer;
 import com.example.orderservice.producer.KafkaOrderProducer;
+import com.example.orderservice.schema.Field;
+import com.example.orderservice.schema.OrderPayload;
+import com.example.orderservice.schema.Schema;
 import com.example.orderservice.service.OrderService;
 import com.example.orderservice.vo.RequestOrder;
 import com.example.orderservice.vo.ResponseOrder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.criterion.Order;
 import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,6 +30,7 @@ public class OrderController {
     private final OrderService orderService;
     private final ModelMapper modelMapper;
     private final KafkaOrderProducer kafkaOrderProducer;
+    private final KafkaOrderJdbcProducer kafkaOrderJdbcProducer;
 
     @GetMapping("/health-check")
     public String check(){
@@ -37,11 +45,16 @@ public class OrderController {
         orderDto.setTotalPrice(orderDto.calculateTotalPrice());
         orderDto.setOrderId(UUID.randomUUID().toString());
 
-        OrderDto savedOrder = orderService.saveOrder(orderDto);
+//        OrderDto savedOrder = orderService.saveOrder(orderDto);
+
+
+
+
 
         kafkaOrderProducer.send("order-topic", orderDto);
+        kafkaOrderJdbcProducer.send("orders", orderDto);
 
-        return modelMapper.map(savedOrder, ResponseOrder.class);
+        return modelMapper.map(orderDto, ResponseOrder.class);
     }
 
     @GetMapping("{userId}/orders")
