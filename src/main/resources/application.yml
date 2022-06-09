@@ -7,3 +7,10 @@ spring:
 
 greeting:
   message: Welcome to the E-Commerce
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, refresh, beans, busrefresh, info, prometheus, metrics

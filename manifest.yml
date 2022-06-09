@@ -1,0 +1,9 @@
+---
+applications:
+  - name: docker-order-service
+    host: docker-order-service
+    memory: 2G
+    sevices:
+      - hana-schema
+#    routes:
+#      - route: user-service.cfapps.ap12.hana.ondemand.com

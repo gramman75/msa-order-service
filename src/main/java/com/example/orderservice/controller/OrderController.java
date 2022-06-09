@@ -12,13 +12,11 @@ import com.example.orderservice.vo.RequestOrder;
 import com.example.orderservice.vo.ResponseOrder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.criterion.Order;
 import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -39,6 +37,7 @@ public class OrderController {
 
     @PostMapping("/{userId}/order")
     public ResponseOrder saveOrder(@PathVariable("userId") String userId, @RequestBody RequestOrder requestOrder){
+
         OrderDto orderDto = modelMapper.map(requestOrder, OrderDto.class);
         orderDto.setUserId(userId);
         orderDto.setCreatedAt(LocalDateTime.now());
@@ -59,6 +58,7 @@ public class OrderController {
 
     @GetMapping("{userId}/orders")
     public List<ResponseOrder> findOrder(@PathVariable("userId") String userId) {
+
         List<OrderDto> orders = orderService.getOrders(userId);
         List<ResponseOrder> result = new ArrayList<>();
         orders.forEach(order ->{

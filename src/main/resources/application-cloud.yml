@@ -26,7 +26,7 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: https://discoveryservice.cfapps.ap12.hana.ondemand.com/eureka
+      defaultZone: https://docker-discovery-service.cfapps.ap12.hana.ondemand.com/eureka
   instance:
     instance-id:  ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}
 # hana.url = ${vcap.services.hana_migration.credentials.url}

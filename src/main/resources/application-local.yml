@@ -2,6 +2,8 @@ server:
   port: 0
 
 spring:
+  application:
+    name: order-service
   datasource:
 #    url: jdbc:h2:tcp://localhost/C:\data\order-service # jdbc:h2:file:C:\data\test
 #    url: jdbc:h2:mem:orderdb
@@ -16,6 +18,12 @@ spring:
       settings:
         web-allow-others: true
       path: /h2-console
+  zipkin:
+    base-url: http://localhost:9411
+    enabled: true
+  sleuth:
+    sampler:
+      probability: 1.0
   jpa:
     hibernate:
       ddl-auto: update
@@ -38,3 +46,11 @@ eureka:
   instance:
     hostname: localhost
     instance-id:  ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}
+management:
+  metrics:
+    tags:
+      application: ${spring.application.name}
+  endpoints:
+    web:
+      exposure:
+        include: health, refresh, beans, httptrace, busrefresh, info, metrics, prometheus
