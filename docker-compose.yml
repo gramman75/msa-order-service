@@ -1,0 +1,14 @@
+version: "2"
+
+services:
+  zookeeper:
+    image: dsfs
+    container_name: asfd
+    ports:
+      - 111:111
+    volumes:
+      - sfd:asf
+    environment:
+      fasf
+    networks:
+      -
