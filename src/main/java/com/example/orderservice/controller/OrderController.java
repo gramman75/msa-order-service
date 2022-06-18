@@ -12,6 +12,8 @@ import com.example.orderservice.vo.RequestOrder;
 import com.example.orderservice.vo.ResponseOrder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,9 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@RequestMapping("/order-service")
+// @RequestMapping("/order-service")
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class OrderController {
 
     private final OrderService orderService;
@@ -38,13 +41,15 @@ public class OrderController {
     @PostMapping("/{userId}/order")
     public ResponseOrder saveOrder(@PathVariable("userId") String userId, @RequestBody RequestOrder requestOrder){
 
+        log.info("user id:" + userId);
+        System.out.println("user id ; " + userId);
         OrderDto orderDto = modelMapper.map(requestOrder, OrderDto.class);
         orderDto.setUserId(userId);
         orderDto.setCreatedAt(LocalDateTime.now());
         orderDto.setTotalPrice(orderDto.calculateTotalPrice());
         orderDto.setOrderId(UUID.randomUUID().toString());
 
-//        OrderDto savedOrder = orderService.saveOrder(orderDto);
+       OrderDto savedOrder = orderService.saveOrder(orderDto);
 
 
 
@@ -58,6 +63,10 @@ public class OrderController {
 
     @GetMapping("{userId}/orders")
     public List<ResponseOrder> findOrder(@PathVariable("userId") String userId) {
+
+        
+        log.info("user id:" + userId);
+        System.out.println("user id ; " + userId);
 
         List<OrderDto> orders = orderService.getOrders(userId);
         List<ResponseOrder> result = new ArrayList<>();
